@@ -1,0 +1,5 @@
+{
+  "eventId": "{{uuid}}",
+  "eventType": "UserCreated",
+  "timestampMillis": "{{timestampMillis}}"
+}

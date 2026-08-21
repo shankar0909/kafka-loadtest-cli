@@ -1,0 +1,43 @@
+kafka:
+  # Confluent Cloud bootstrap endpoint, e.g. pkc-xxxxx.us-east-1.aws.confluent.cloud:9092
+  bootstrap-servers: 
+  security-protocol: SASL_SSL
+  sasl-mechanism: PLAIN
+  # Confluent Cloud: username/password are the API key and API secret.
+  # Do NOT commit real credentials -- inject via env var in CI:
+  #   export KAFKA_SASL_JAASCONFIG='org.apache.kafka.common.security.plain.PlainLoginModule required username="API_KEY" password="API_SECRET";'
+  sasl-jaas-config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="" password="";'
+
+  # Confluent Schema Registry -- required for producer-test (Avro).
+  # e.g. https://psrc-xxxxx.us-east-2.aws.confluent.cloud
+  schema-registry-url: 
+  # Format "SR_API_KEY:SR_API_SECRET" -- Schema Registry has its OWN API key,
+  # separate from the Kafka cluster API key above.
+  schema-registry-basic-auth-user-info: ":"
+# One block per event type. The key MUST match the Avro schema's short name
+# (avro/<key>.avsc) -- that's what "producer-test --event-type <key>" looks up.
+# Run with just: producer-test --event-type user-created
+loadtest:
+  events:
+    user-created:
+      topic: topic_0
+      num-records: 10000
+      rate-per-second: 2000
+      acks: all
+    order-placed:
+      topic: topic_2
+      num-records: 5000
+      rate-per-second: 1000
+      acks: all
+
+spring:
+  shell:
+    interactive:
+      enabled: true
+    script:
+      enabled: true
+
+logging:
+  level:
+    org.apache.kafka: WARN
+    com.yourorg.loadtest: INFO

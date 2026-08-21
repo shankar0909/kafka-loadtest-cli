@@ -1,0 +1,7 @@
+{
+  "eventId": "{{uuid}}",
+  "orderId": "{{uuid}}",
+  "userId": "{{uuid}}",
+  "amountCents": "{{randomInt}}",
+  "placedAtMillis": "{{timestampMillis}}"
+}
